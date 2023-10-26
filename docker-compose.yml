@@ -1,0 +1,32 @@
+version: '3.7'
+
+services:
+  app:
+    build: .
+    hostname: node1
+    ports:
+      - 3000:3000
+    env_file:
+      - .env
+  app2:
+    build: .
+    hostname: node2
+    ports:
+      - 8000:3000
+    env_file:
+      - .env
+
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - app
+    ports:
+      - "80:80"
+    restart: on-failure
+  
+networks:
+  default:
+    driver: bridge
+    name: node

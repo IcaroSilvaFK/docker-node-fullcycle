@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker'
 import 'dotenv/config'
 import express from 'express'
 import { knexConfig } from './configs/knexjs.config'
@@ -10,14 +11,22 @@ async function main() {
 
   try {
     app.get("/", async (req, reply) => {
-      const hostname = req.hostname
-
+      console.log("PROCESS REQUEST")
       await knexConfig("people").insert({
-        username: hostname
+        username: faker.internet.userName()
       })
 
-      reply.send("<h1>Full Cycle Rocks!</h1>")
+      const users = await knexConfig("people").select()
+
+      reply.send(`
+        <h1>Full Cycle Rocks!</h1>
+        <h2>Users</h2>
+        <pre>
+          ${JSON.stringify(users, null, 2)}
+        </pre>
+      `)
     })
+
     app.listen(+PORT, () => {
       console.log(`⛴️  Server running at port ${PORT}`)
     })

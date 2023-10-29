@@ -5,7 +5,7 @@ import { knexConfig } from './configs/knexjs.config'
 
 const PORT = 3000
 
-async function main() {
+function main() {
 
   const app = express()
 

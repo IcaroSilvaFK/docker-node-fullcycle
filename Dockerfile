@@ -2,14 +2,15 @@ FROM node:18.17.0-alpine
 
 RUN apk add --no-cache bash
 
-USER node
 WORKDIR /app
+RUN cd /app
 
-# COPY . .
+RUN pwd
 
-# RUN pnpm i
-# RUN pnpm tsc
+COPY . .
 
-# EXPOSE 3000
+RUN npm i
+RUN npm run build
 
-# ENTRYPOINT ["pnpm", "start"]
+
+ENTRYPOINT ["npm", "start"]

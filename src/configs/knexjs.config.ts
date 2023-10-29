@@ -11,11 +11,6 @@ const knexConfig = knex({
   }
 })
 
-knexConfig.on("query", query => {
-  console.log(query.sql)
-})
-
-
 async function main() {
   try {
     await knexConfig.schema.createTableIfNotExists("people", table => {

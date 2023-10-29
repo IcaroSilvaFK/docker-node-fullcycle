@@ -1,32 +1,80 @@
-version: '3.7'
+version: "3"
 
 services:
+  mysqldb:
+    image: mysql:latest
+    networks:
+      - node-network
+    restart: always
+    tty: true
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=api
+      - MYSQL_PASSWORD=root
+    volumes:
+      - ./.docker/dbdata:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
   app:
     build: .
-    hostname: node1
+    entrypoint: ./.docker/entrypoint.sh
+    restart: always
+    networks:
+      - node-network
+    volumes:
+      - .:/app
+    environment:
+      - PORT=3000
+    depends_on:
+      - mysqldb
     ports:
-      - 3000:3000
-    env_file:
-      - .env
+      - "3000:3000"
+
+  app3:
+    build: .
+    entrypoint: ./.docker/entrypoint.sh
+    restart: always
+    networks:
+      - node-network
+    volumes:
+      - .:/app
+    environment:
+      - PORT=3000
+    depends_on:
+      - mysqldb
+    ports:
+      - "8080:3000"
+
   app2:
     build: .
-    hostname: node2
+    entrypoint: ./.docker/entrypoint.sh
+    restart: always
+    networks:
+      - node-network
+    environment:
+      - PORT=3000
+    depends_on:
+      - mysqldb
+    volumes:
+      - .:/app
     ports:
       - 8000:3000
-    env_file:
-      - .env
 
   nginx:
     image: nginx:latest
+    networks:
+      - node-network
+    tty: true
+    restart: always
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
       - app
+      - app2
     ports:
       - "80:80"
-    restart: on-failure
-  
+
 networks:
-  default:
+  node-network:
     driver: bridge
-    name: node

@@ -1,13 +1,15 @@
-FROM node:18.17.0
+FROM node:18.17.0-alpine
+
+RUN apk add --no-cache bash
 
 USER node
-
 WORKDIR /app
 
-COPY package.json .
+# COPY . .
 
-COPY . .
+# RUN pnpm i
+# RUN pnpm tsc
 
-RUN npm i && npm cache clean --force
+# EXPOSE 3000
 
-ENTRYPOINT ["npm", "start"]
+# ENTRYPOINT ["pnpm", "start"]

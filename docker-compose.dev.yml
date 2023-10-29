@@ -19,10 +19,13 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: ./.docker/Dockerfile.dev
+    entrypoint: ./.docker/entrypoint.sh
     restart: always
     networks:
       - node-network
+    volumes:
+      - .:/app
     environment:
       - PORT=3000
     depends_on:
@@ -33,10 +36,13 @@ services:
   app3:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: ./.docker/Dockerfile.dev
+    entrypoint: ./.docker/entrypoint.sh
     restart: always
     networks:
       - node-network
+    volumes:
+      - .:/app
     environment:
       - PORT=3000
     depends_on:
@@ -47,7 +53,8 @@ services:
   app2:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: ./.docker/Dockerfile.dev
+    entrypoint: ./.docker/entrypoint.sh
     restart: always
     networks:
       - node-network
@@ -55,6 +62,8 @@ services:
       - PORT=3000
     depends_on:
       - mysqldb
+    volumes:
+      - .:/app
     ports:
       - 8000:3000
 

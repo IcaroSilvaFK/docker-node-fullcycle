@@ -1,7 +1,10 @@
 import { faker } from '@faker-js/faker'
 import 'dotenv/config'
 import express from 'express'
+import statusMonitor from 'express-status-monitor'
+
 import { knexConfig } from './configs/knexjs.config'
+
 
 const PORT = 3000
 
@@ -9,7 +12,9 @@ function main() {
 
   const app = express()
 
+
   try {
+    app.use(statusMonitor())
     app.get("/", async (req, reply) => {
       console.log("PROCESS REQUEST")
       await knexConfig("people").insert({

@@ -27,6 +27,7 @@ services:
       - PORT=3000
     depends_on:
       - mysqldb
+    entrypoint: dockerize -wait tcp://mysqldb:3306
     ports:
       - "3000:3000"
 
@@ -41,6 +42,7 @@ services:
       - PORT=3000
     depends_on:
       - mysqldb
+    entrypoint: dockerize -wait tcp://mysqldb:3306
     ports:
       - "8080:3000"
 
@@ -55,6 +57,7 @@ services:
       - PORT=3000
     depends_on:
       - mysqldb
+    entrypoint: dockerize -wait tcp://mysqldb:3306
     ports:
       - 8000:3000
 

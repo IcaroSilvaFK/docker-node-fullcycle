@@ -3,7 +3,7 @@ import 'dotenv/config'
 import express from 'express'
 import statusMonitor from 'express-status-monitor'
 
-import { knexConfig } from './configs/knexjs.config'
+import { knexConfig } from './configs/knexjs.config.js'
 
 
 const PORT = 3000

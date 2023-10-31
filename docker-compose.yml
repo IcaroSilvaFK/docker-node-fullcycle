@@ -22,6 +22,8 @@ services:
       dockerfile: Dockerfile
     restart: always
     entrypoint: wait-for mysqldb:3306 -t 40 -- npm start
+    volumes:
+      - .:/app
     networks:
       - node-network
     environment:

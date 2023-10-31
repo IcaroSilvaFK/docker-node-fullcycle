@@ -1,27 +1,23 @@
-import { faker } from '@faker-js/faker'
-import 'dotenv/config'
-import express from 'express'
-import statusMonitor from 'express-status-monitor'
+import { faker } from "@faker-js/faker";
+import "dotenv/config";
+import express from "express";
+import statusMonitor from "express-status-monitor";
 
-import { knexConfig } from './configs/knexjs.config.js'
+import { knexConfig } from "./configs/knexjs.config.js";
 
-
-const PORT = 3000
+const PORT = 3000;
 
 function main() {
-
-  const app = express()
-
+  const app = express();
 
   try {
-    app.use(statusMonitor())
+    app.use(statusMonitor());
     app.get("/", async (req, reply) => {
-      console.log("PROCESS REQUEST")
       await knexConfig("people").insert({
-        username: faker.internet.userName()
-      })
+        username: faker.internet.userName(),
+      });
 
-      const users = await knexConfig("people").select()
+      const users = await knexConfig("people").select();
 
       reply.send(`
         <h1>Full Cycle Rocks!</h1>
@@ -29,14 +25,14 @@ function main() {
         <pre>
           ${JSON.stringify(users, null, 2)}
         </pre>
-      `)
-    })
+      `);
+    });
 
     app.listen(+PORT, () => {
-      console.log(`⛴️  Server running at port ${PORT}`)
-    })
+      console.log(`⛴️  Server running at port ${PORT}`);
+    });
   } catch (err) {
-    console.error(err)
+    console.error(err);
   }
 }
-main()
+main();

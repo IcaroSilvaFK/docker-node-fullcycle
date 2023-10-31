@@ -1,8 +1,8 @@
-import { faker } from "@faker-js/faker";
 import "dotenv/config";
 import express from "express";
 import statusMonitor from "express-status-monitor";
 
+import { randomUUID } from "node:crypto";
 import { knexConfig } from "./configs/knexjs.config.js";
 
 const PORT = 3000;
@@ -13,8 +13,10 @@ function main() {
   try {
     app.use(statusMonitor());
     app.get("/", async (req, reply) => {
+      const uuid = randomUUID();
+
       await knexConfig("people").insert({
-        username: faker.internet.userName(),
+        username: uuid,
       });
 
       const users = await knexConfig("people").select();

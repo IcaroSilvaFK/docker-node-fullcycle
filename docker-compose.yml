@@ -17,11 +17,9 @@ services:
       - "3306:3306"
 
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: .
     restart: always
-    entrypoint: wait-for mysqldb:3306 -t 40 -- npm start
+    entrypoint: wait-for mysqldb:3306 -t 60 -- npm start
     volumes:
       - .:/app
       - /app/node_modules

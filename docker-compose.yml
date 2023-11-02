@@ -24,6 +24,7 @@ services:
     entrypoint: wait-for mysqldb:3306 -t 40 -- npm start
     volumes:
       - .:/app
+      - /app/node_modules
     networks:
       - node-network
     environment:
